@@ -2,33 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @property integer $id
- * @property integer $users_id
- * @property string $name
- * @property User $user
- */
 class Employee extends Model
 {
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     * 
-     * @var bool
-     */
-    public $incrementing = false;
+    use HasFactory;
 
-    /**
-     * @var array
-     */
-    protected $fillable = ['users_id', 'name'];
+    protected $fillable = [
+        'name', "user_id"
+    ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user() : BelongsTo
     {
-        return $this->belongsTo('App\Models\User', 'users_id');
+        return $this->belongsTo(User::class, "user_id");
     }
 }

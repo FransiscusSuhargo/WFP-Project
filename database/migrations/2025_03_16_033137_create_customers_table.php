@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\User;
 
 return new class extends Migration
 {
@@ -12,12 +13,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->bigInteger('id')->primary();
-            $table->string('name', 45)->nullable();
-            $table->integer('users_id')->index('fk_customers_users_idx');
-            $table->dateTime('member_start_date')->nullable();
-            $table->dateTime('member_end_date')->nullable();
-            $table->enum('status', ['member', 'nonMember'])->nullable();
+            $table->id();
+            $table->string('name');
+            $table->foreignIdFor(User::class, 'user_id')
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->date("member_start_date")->nullable();
+            $table->date('member_end_date')->nullable();
+            $table->enum("status", ['member', 'non member']);
+            $table->timestamps();
         });
     }
 

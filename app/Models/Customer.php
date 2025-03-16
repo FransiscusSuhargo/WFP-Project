@@ -2,45 +2,26 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @property integer $id
- * @property integer $users_id
- * @property string $name
- * @property string $member_start_date
- * @property string $member_end_date
- * @property string $status
- * @property User $user
- * @property Order[] $orders
- */
 class Customer extends Model
 {
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     * 
-     * @var bool
-     */
-    public $incrementing = false;
+    use HasFactory;
 
-    /**
-     * @var array
-     */
-    protected $fillable = ['users_id', 'name', 'member_start_date', 'member_end_date', 'status'];
+    protected $fillable = [
+        "name", "user_id", "member_start_date",
+        "member_end_date", "status"
+    ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    protected $casts = [
+        "member_start_date" => "date",
+        "member_end_date" => "date"
+    ];
+
+    public function user() : BelongsTo
     {
-        return $this->belongsTo('App\Models\User', 'users_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function orders()
-    {
-        return $this->hasMany('App\Models\Order', 'customers_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
