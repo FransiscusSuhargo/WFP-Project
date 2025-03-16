@@ -14,8 +14,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('food_modifiers', function (Blueprint $table) {
-            $table->foreignIdFor(Food::class, 'food_id')
-                ->constrained()
+//            $table->foreignIdFor(Food::class, 'food_id')
+//                ->constrained()
+//                ->cascadeOnUpdate()
+//                ->cascadeOnDelete();
+            $table->foreignId('food_id')
+                ->constrained('foods')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->foreignIdFor(Modifier::class, 'modifier_id')

@@ -15,8 +15,12 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Food::class, 'food_id')
-                ->constrained()
+//            $table->foreignIdFor(Food::class, 'food_id')
+//                ->constrained()
+//                ->cascadeOnUpdate()
+//                ->cascadeOnDelete();
+            $table->foreignId('food_id')
+                ->constrained('foods')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->foreignIdFor(Order::class, 'order_id')
