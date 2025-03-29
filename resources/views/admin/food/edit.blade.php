@@ -20,9 +20,9 @@
     @endif
 
     <div class="card mb-3">
-        <h3 class="card-header text-center text-primary">UPDATE FOOD</h3>
+        <h3 class="card-header text-primary">Edit Food</h3>
         <div class="card-body">
-            <form id="insert-food-form" action="{{ route('food.update') }}" method="POST" class="form-control">
+            <form id="edit-food-form" action="{{ route('food.update') }}" method="POST" class="form-control">
                 @csrf
                 <div class="mb-3">
                     <label for="exampleFormControlInput1" class="form-label">ID</label>

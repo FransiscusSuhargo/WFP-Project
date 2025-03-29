@@ -17,6 +17,8 @@ class AdminController extends Controller
         return view('admin.index');
     }
 
+    // Food Master
+
     public function showFood(){
         $foods = Food::all();
         return view('admin.food.index', compact('foods'));
@@ -30,7 +32,7 @@ class AdminController extends Controller
 
     public function addFood(){
         $categories = Category::all();
-        return view('admin.food.add', compact('categories'));
+        return view('admin.food.insert', compact('categories'));
     }
 
     public function insertFood(Request $request)
@@ -57,7 +59,7 @@ class AdminController extends Controller
         $food->price = $request->price;
         $food->category->id = $request->category;
         if ($food->save()) {
-            return redirect()->route('food.edit', $food->id)->with('success', 'Successfully updated food!');
+            return redirect()->route('food.index')->with('success', 'Successfully updated food!');
         }    
         return redirect()->back()->withInput()->withErrors(['error' => 'Failed to update food!']);
     }
@@ -76,6 +78,58 @@ class AdminController extends Controller
         }
 
         return redirect()->route('food.index')->withErrors(['error' => 'Failed to delete ' . $foodName]);
+    }
+
+    // Master Category
+
+    public function showCategory(){
+        $categories = Category::all();
+        return view('admin.category.index', compact('categories'));
+    }
+
+    public function addCategory(){
+        return view('admin.category.insert');
+    }
+
+    public function editCategory($id){
+        $category = Category::find($id);
+        return view('admin.category.edit', compact('category'));
+
+    }
+
+    public function updateCategory(Request $request){
+        $category = Category::find($request->id);
+        $category->name = $request->name;
+        if ($category->save()) return redirect()->route('category.index')->with('success', 'Successfully Edit Category!');
+        return redirect()->back()->withInput()->withErrors(['error' => 'Failed to update food!']);
+
+    }
+
+    public function deleteCategory($id)
+    {
+        $category = Category::find($id);
+
+        if (!$category) {
+            return redirect()->route('category.index')->withErrors(['error' => 'Category not found!']);
+        }
+        $categoryName = $category->name;
+
+        if ($category->delete()) {
+            return redirect()->route('category.index')->with('success', 'Successfully delete ' . $categoryName);
+        }
+
+        return redirect()->route('category.index')->withErrors(['error' => 'Failed to delete ' . $categoryName]);
+    }
+
+    public function insertCategory(Request $request)
+    {
+        $category = new Category();
+        $category->name = $request->name;
+
+        if ($category->save()) {
+            return redirect()->route('category.index')->with('success', 'Successfully added data!');
+        }
+        return redirect()->route('category.index')->withErrors('Failed to add data. Please try again.');
     }
 
 

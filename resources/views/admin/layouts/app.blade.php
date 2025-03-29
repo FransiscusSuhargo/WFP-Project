@@ -146,7 +146,7 @@
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
             <li class="menu-item @yield('dashboard')">
-              <a href="index.html" class="menu-link">
+              <a href="{{ route('index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
               </a>
@@ -188,7 +188,7 @@
             </li>
             <li class="menu-item @yield('food')">
               <a href="{{ route('food.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                <i class='menu-icon bx bxs-food-menu'></i>
                 <div data-i18n="Account Settings">Foods</div>
               </a>
               {{-- <ul class="menu-sub">
@@ -210,8 +210,8 @@
               </ul> --}}
             </li>
             <li class="menu-item @yield('category')">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+              <a href="{{ route('category.index') }}" class="menu-link">
+                <i class='menu-icon bx bx-category' ></i>
                 <div data-i18n="Authentications">Categories</div>
               </a>
               {{-- <ul class="menu-sub">
@@ -233,8 +233,8 @@
               </ul> --}}
             </li>
             <li class="menu-item @yield('customer')">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+              <a href="javascript:void(0);" class="menu-link">
+                <i class='menu-icon bx bx-body'></i>
                 <div data-i18n="Misc">Customers</div>
               </a>
               {{-- <ul class="menu-sub">

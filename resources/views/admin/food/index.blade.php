@@ -47,7 +47,7 @@
                                 <td>{{ $food->name }}</td>
                                 <td>{{ $food->description }}</td>
                                 <td>{{ $food->nutrition_value }}</td>
-                                <td>{{ $food->price }}</td>
+                                <td>Rp. {{ $food->price }},-</td>
                                 <td>{{ $food->category->name }}</td>
                                 <td>
                                     <form action="{{ route('food.edit', ['id' => $food->id]) }}" method="get">

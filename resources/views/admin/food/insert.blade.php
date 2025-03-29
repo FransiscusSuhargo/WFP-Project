@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="card mb-3">
-        <h5 class="card-header">INSERT FOOD</h5>
+        <h3 class="card-header text-primary">INSERT FOOD</h3>
         <div class="card-body">
             <form action="{{ route('food.insert') }}" method="post">
                 @csrf

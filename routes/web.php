@@ -25,7 +25,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::prefix('admin')->group(function(){
-    Route::get('/dashboard', [AdminController::class, 'index']);
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('index');
     Route::prefix('food')->group(function(){
         Route::get('/', [AdminController::class, 'showFood'])->name('food.index');
         Route::get('/add', [AdminController::class, 'addFood'])->name('food.add');
@@ -33,5 +33,15 @@ Route::prefix('admin')->group(function(){
         Route::get('/{id}', [AdminController::class, 'editFood'])->name('food.edit');
         Route::post('/update', [AdminController::class, 'updateFood'])->name('food.update');
         Route::delete('/delete/{id}', [AdminController::class, 'deleteFood'])->name('food.delete');
+    });
+
+    Route::prefix('category')->group(function(){
+        Route::get('/', [AdminController::class, 'showCategory'])->name('category.index');
+        Route::get('/add', [AdminController::class, 'addCategory'])->name('category.add');
+        Route::post('/insert', [AdminController::class, 'insertCategory'])->name('category.insert');
+        Route::get('/{id}', [AdminController::class, 'editCategory'])->name('category.edit');
+        Route::post('/update', [AdminController::class, 'updateCategory'])->name('category.update');
+        Route::delete('/delete/{id}', [AdminController::class, 'deleteCategory'])->name('category.delete');
+
     });
 });
