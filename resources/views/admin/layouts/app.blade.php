@@ -189,7 +189,7 @@
             <li class="menu-item @yield('food')">
               <a href="{{ route('food.index') }}" class="menu-link">
                 <i class='menu-icon bx bxs-food-menu'></i>
-                <div data-i18n="Account Settings">Foods</div>
+                <div data-i18n="Account Settings">Food</div>
               </a>
               {{-- <ul class="menu-sub">
                 <li class="menu-item">
@@ -212,7 +212,7 @@
             <li class="menu-item @yield('category')">
               <a href="{{ route('category.index') }}" class="menu-link">
                 <i class='menu-icon bx bx-category' ></i>
-                <div data-i18n="Authentications">Categories</div>
+                <div data-i18n="Authentications">Category</div>
               </a>
               {{-- <ul class="menu-sub">
                 <li class="menu-item">
@@ -235,7 +235,7 @@
             <li class="menu-item @yield('customer')">
               <a href="{{ route('customer.index') }}" class="menu-link">
                 <i class='menu-icon bx bx-body'></i>
-                <div data-i18n="Misc">Customers</div>
+                <div data-i18n="Misc">Customer</div>
               </a>
               {{-- <ul class="menu-sub">
                 <li class="menu-item">
@@ -249,6 +249,14 @@
                   </a>
                 </li>
               </ul> --}}
+            </li>
+
+            {{-- order --}}
+            <li class="menu-item @yield('order')">
+              <a href="{{ route('order.index') }}" class="menu-link">
+                <i class='menu-icon bx bxs-book-content'></i>
+                <div data-i18n="Misc">Order</div>
+              </a>
             </li>
             <!-- Components -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Reports</span></li>

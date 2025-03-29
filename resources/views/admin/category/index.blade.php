@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('pageName', 'Category Dashboard Page')
+@section('pageName', 'Category Page')
 
 @section('category', 'active')
 
@@ -44,13 +44,16 @@
                                     <div class="d-flex gap-5">
                                         <form action="{{ route('category.edit', ['id' => $category->id]) }}" method="get">
                                             @csrf
-                                            <input type="submit" value="Edit" class="btn btn-outline-primary">
+                                            <button class="btn btn-outline-primary"><i
+                                                    class='bx bxs-edit-alt'></i>Edit</button>
                                         </form>
                                         <form action="{{ route('category.delete', ['id' => $category->id]) }}"
                                             method="post" onsubmit="return confirm('Are you sure?');">
                                             @csrf
                                             @method('DELETE')
-                                            <input type="submit" value="DELETE" class="btn btn-danger">
+                                            <button type="submit" class="btn btn-outline-danger">
+                                                <i class='bx bxs-trash'></i> DELETE
+                                            </button>
                                         </form>
                                     </div>
                                 </td>

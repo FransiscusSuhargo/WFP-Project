@@ -53,4 +53,13 @@ Route::prefix('admin')->group(function(){
         Route::post('/update', [AdminController::class, 'updateCustomer'])->name('customer.update');
         Route::delete('/delete/{id}', [AdminController::class, 'deleteCustomer'])->name('customer.delete');
     });
+
+    Route::prefix('order')->group(function(){
+        Route::get('/', [AdminController::class, 'showOrder'])->name('order.index');
+        Route::get('/add', [AdminController::class, 'addOrder'])->name('order.add');
+        Route::post('/insert', [AdminController::class, 'insertOrder'])->name('order.insert');
+        Route::get('/{id}', [AdminController::class, 'editOrder'])->name('order.edit');
+        Route::post('/update', [AdminController::class, 'updateOrder'])->name('order.update');
+        Route::delete('/delete/{id}', [AdminController::class, 'deleteOrder'])->name('order.delete');
+    });
 });

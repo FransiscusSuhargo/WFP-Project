@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Foods\Category;
 use App\Models\Foods\Food;
+use App\Models\Orders\Order;
+use App\Models\Orders\Payments;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use PhpParser\Node\Expr\FuncCall;
 use Symfony\Component\HttpFoundation\RateLimiter\RequestRateLimiterInterface;
 
 class AdminController extends Controller
@@ -46,6 +49,8 @@ class AdminController extends Controller
         $food->nutrition_value = $request->nutrition;
         $food->price = $request->price;
         $food->category_id = $request->category; 
+        $food->created_at = Carbon::now();
+        $food->updated_at = Carbon::now();
 
         if ($food->save()) {
             return redirect()->route('food.index')->with('success', 'Successfully added data!');
@@ -128,6 +133,8 @@ class AdminController extends Controller
     {
         $category = new Category();
         $category->name = $request->name;
+        $category->created_at = Carbon::now();
+        $category->updated_at = Carbon::now();
 
         if ($category->save()) {
             return redirect()->route('category.index')->with('success', 'Successfully added data!');
@@ -150,9 +157,11 @@ class AdminController extends Controller
         $customer = new Customer();
         $customer->name = $request->name;
         $customer->user_id = $request->user_id;
-        $customer->member_start_date = Carbon::createFromFormat('Y-m-d', $request->start_date)->format('Y-m-d');;
+        $customer->member_start_date = Carbon::createFromFormat('Y-m-d', $request->start_date)->format('Y-m-d');
         $customer->member_end_date = Carbon::createFromFormat('Y-m-d', $request->end_date)->format('Y-m-d');
         $customer->status = $request->status;
+        $customer->created_at = Carbon::now();
+        $customer->updated_at = Carbon::now();
         if ($customer->save()) {
             return redirect()->route('customer.index')->with('success', 'Successfully added data!');
         }
@@ -189,6 +198,69 @@ class AdminController extends Controller
         }
 
         return redirect()->route('customer.index')->withErrors(['error' => 'Failed to delete ' . $customerName]);
+    }
+
+    //Master Order
+    public function showOrder(){
+        $orders = Order::all();
+        return view('admin.order.index', compact('orders'));
+    }
+
+    public function addOrder(){
+        $customers = Customer::all();
+        $payments = Payments::all();
+        return view('admin.order.insert', compact('customers', 'payments'));
+    }
+
+    public function insertOrder(Request $request){
+        $order = new Order();
+        $order->customer_id = $request->customer_id;
+        $order->payment_id = $request->payment_id;
+        $order->date = Carbon::parse($request->date)->format('Y-m-d H:i:s');
+        $order->queue_number = $request->queueNumber;
+        $order->type = $request->type;
+        $order->status = $request->status;
+        $order->created_at = Carbon::now();
+        $order->updated_at = Carbon::now();
+        if ($order->save()) {
+            return redirect()->route('order.index')->with(['success' => 'Successfully add Order']);
+        }
+        return redirect()->back()->withInput()->withErrors(['error' => 'Failed to add Order!']);
+    }
+
+    public function editOrder($id){
+        $order = Order::find($id);
+        $customers = Customer::all();
+        $payments = Payments::all();
+        return view('admin.order.edit', compact('order', 'customers', 'payments'));
+    }
+
+    public function updateOrder(Request $request){
+        $order = Order::find($request->id);
+        $order->customer_id = $request->customer_id;
+        $order->payment_id = $request->payment_id;
+        $order->date = Carbon::parse($request->date)->format('Y-m-d H:i:s');
+        $order->queue_number = $request->queue_number;
+        $order->type = $request->type;
+        $order->status = $request->status;
+        $order->created_at = Carbon::now();
+        $order->updated_at = Carbon::now();
+
+        if ($order->save()) {
+            return redirect()->route('order.index')->with(['success' => 'Successfully Update Order']);
+        }
+        return redirect()->back()->withInput()->withErrors(['error' => 'Failed to update Order!']);
+    }
+
+    public function deleteOrder($id){
+        $order = Order::find($id);
+        $orderQueue = $order->queue_number;
+
+        if ($order->delete()) {
+            return redirect()->route('order.index')->with(['success' => 'Successfully Delete Order ' . $orderQueue]);
+        }
+        return redirect()->route('order.index')->with(['error' => 'Failed to delete Order ' . $orderQueue]);
+
     }
 
 

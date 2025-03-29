@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
-@section('pageName', 'Food Page')
 
-@section('food', 'active')
+@section('pageName', 'Order Page')
+@section('order', 'active')
 
 @section('content')
     @if (session('success'))
@@ -17,13 +17,11 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-
-
     <div class="card">
-        <h1 class="text-center my-3">Food Master</h1>
+        <h1 class="text-center my-3">Order Master</h1>
         <div class="card-body">
             <div class="d-flex justify-content-end mb-3">
-                <a class="btn btn-primary text-white" href="{{ route('food.add') }}">
+                <a class="btn btn-primary text-white" href="{{ route('order.add') }}">
                     <i class='bx bxs-plus-circle'></i> Insert Data
                 </a>
             </div>
@@ -32,33 +30,37 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Nutrition_Value</th>
-                            <th>Price</th>
-                            <th>Category</th>
-                            <th>Action</th>
+                            <th>Customer Name</th>
+                            <th>Payment Method</th>
+                            <th>Date</th>
+                            <th>Queue Number</th>
+                            <th>Type</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                        @foreach ($foods as $food)
+                        @foreach ($orders as $order)
                             <tr>
-                                <td>{{ $food->id }}</td>
-                                <td>{{ $food->name }}</td>
-                                <td>{{ $food->description }}</td>
-                                <td>{{ $food->nutrition_value }}</td>
-                                <td>Rp. {{ $food->price }},-</td>
-                                <td>{{ $food->category->name }}</td>
+                                <td>{{ $order->id }}</td>
+                                <td>{{ $order->customer->name }}</td>
+                                <td>{{ $order->payment->name }}</td>
+                                <td>{{ $order->date }}</td>
+                                <td> <span
+                                        class="badge bg-label-{{ $order->type == 'Dine-in' ? 'primary' : 'dark' }}">{{ $order->type }}</span>
+                                </td>
+                                <td> <span
+                                        class="badge bg-label-{{ $order->status == 'ready' ? 'success' : ($order->status == 'finished' ? 'warning' : 'danger') }}">{{ $order->status }}</span>
+                                </td>
                                 <td>
-                                    <form action="{{ route('food.edit', ['id' => $food->id]) }}" method="get">
+                                    <form action="{{ route('order.edit', ['id' => $order->id]) }}" method="get">
                                         <button class="btn btn-outline-primary w-100"><i
                                                 class='bx bxs-edit-alt'></i>Edit</button>
                                     </form>
-                                    <form action="{{ route('food.delete', $food->id) }}" method="POST"
+                                    <form action="{{ route('order.delete', $order->id) }}" method="POST"
                                         onsubmit="return confirm('Are you sure?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger">
+                                        <button type="submit" class="btn btn-outline-danger w-100">
                                             <i class='bx bxs-trash'></i> DELETE
                                         </button>
                                     </form>
@@ -70,4 +72,5 @@
             </div>
         </div>
     </div>
+
 @endsection

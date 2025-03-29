@@ -47,18 +47,25 @@
                                 <td>{{ $customer->user->email }}</td>
                                 <td>{{ $customer->member_start_date }}</td>
                                 <td>{{ $customer->member_end_date }}</td>
-                                <td>{{ $customer->status }}</td>
+                                <td><span
+                                        class="badge bg-label-{{ $customer->status == 'member' ? 'success' : 'danger' }}">{{ $customer->status }}</span>
+                                </td>
                                 <td>
                                     <div class="d-flex gap-5">
-                                        <form action="{{ route('customer.edit', ['id' => $customer->id]) }}" method="get">
+                                        <form action="{{ route('customer.edit', ['id' => $customer->id]) }}"
+                                            method="get">
                                             @csrf
-                                            <input type="submit" value="Edit" class="btn btn-outline-primary">
+                                            <button class="btn btn-outline-primary"><i
+                                                    class='bx bxs-edit-alt'></i>Edit</button>
                                         </form>
                                         <form action="{{ route('customer.delete', ['id' => $customer->id]) }}"
                                             method="post" onsubmit="return confirm('Are you sure?');">
                                             @csrf
                                             @method('DELETE')
-                                            <input type="submit" value="DELETE" class="btn btn-danger">
+
+                                            <button type="submit" class="btn btn-outline-danger">
+                                                <i class='bx bxs-trash'></i> DELETE
+                                            </button>
                                         </form>
                                     </div>
                                 </td>
