@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Krlove\EloquentModelGenerator\Model\HasMany;
+// use Krlove\EloquentModelGenerator\Model\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -49,17 +50,10 @@ class User extends Model
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function customers() : HasMany
     {
         return $this->hasMany(Customer::class, 'user_id');
     }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function employees()
     {
         return $this->hasMany(Employee::class, 'user_id');

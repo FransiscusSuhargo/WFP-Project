@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Foods\Category;
 use App\Models\Foods\Food;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\RateLimiter\RequestRateLimiterInterface;
 
 class AdminController extends Controller
@@ -101,7 +104,7 @@ class AdminController extends Controller
         $category = Category::find($request->id);
         $category->name = $request->name;
         if ($category->save()) return redirect()->route('category.index')->with('success', 'Successfully Edit Category!');
-        return redirect()->back()->withInput()->withErrors(['error' => 'Failed to update food!']);
+        return redirect()->back()->withInput()->withErrors(['error' => 'Failed to update customer!']);
 
     }
 
@@ -130,6 +133,62 @@ class AdminController extends Controller
             return redirect()->route('category.index')->with('success', 'Successfully added data!');
         }
         return redirect()->route('category.index')->withErrors('Failed to add data. Please try again.');
+    }
+
+    //Master Customer
+    public function showCustomer(){
+        $customers = Customer::all();
+        return view('admin.customer.index', compact('customers'));
+    }
+
+    public function addCustomer(){
+        $users = User::all();
+        return view('admin.customer.insert', compact('users'));
+    }
+
+    public function insertCustomer(Request $request){
+        $customer = new Customer();
+        $customer->name = $request->name;
+        $customer->user_id = $request->user_id;
+        $customer->member_start_date = Carbon::createFromFormat('Y-m-d', $request->start_date)->format('Y-m-d');;
+        $customer->member_end_date = Carbon::createFromFormat('Y-m-d', $request->end_date)->format('Y-m-d');
+        $customer->status = $request->status;
+        if ($customer->save()) {
+            return redirect()->route('customer.index')->with('success', 'Successfully added data!');
+        }
+        return redirect()->route('customer.index')->withErrors('Failed to add data. Please try again.');
+        
+    }
+
+    public function editCustomer($id){
+        $customer = Customer::find($id);
+        $users = User::all();
+        return view('admin.customer.edit', compact('customer', 'users'));
+    }
+
+    public function updateCustomer(Request $request){
+        $customer = Customer::find($request->id);
+        $customer->name = $request->name;
+        $customer->user_id = $request->user_id;
+        $customer->member_start_date = $request->start_date;
+        $customer->member_end_date = $request->end_date;
+        $customer->status = $request->status;
+        if ($customer->save()) return redirect()->route('customer.index')->with('success', 'Successfully Edit Customer!');
+        return redirect()->back()->withInput()->withErrors(['error' => 'Failed to update Customer!']);
+    }
+
+    public function deleteCustomer($id){
+        $customer = Customer::find($id);
+        if (!$customer) {
+            return redirect()->route('customer.index')->withErrors(['error' => 'Customer not found!']);
+        }
+        $customerName = $customer->name;
+
+        if ($customer->delete()) {
+            return redirect()->route('customer.index')->with('success', 'Successfully delete ' . $customerName);
+        }
+
+        return redirect()->route('customer.index')->withErrors(['error' => 'Failed to delete ' . $customerName]);
     }
 
 

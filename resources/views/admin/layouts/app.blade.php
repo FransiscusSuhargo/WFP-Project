@@ -233,7 +233,7 @@
               </ul> --}}
             </li>
             <li class="menu-item @yield('customer')">
-              <a href="javascript:void(0);" class="menu-link">
+              <a href="{{ route('customer.index') }}" class="menu-link">
                 <i class='menu-icon bx bx-body'></i>
                 <div data-i18n="Misc">Customers</div>
               </a>
