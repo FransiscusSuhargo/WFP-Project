@@ -2778,6 +2778,11 @@ textarea.form-control-lg {
     transition: none;
   }
 }
+
+.btn:active {
+    transform: scale(0.99) !important;
+}
+
 .btn:hover {
   color: #697a8d;
 }
