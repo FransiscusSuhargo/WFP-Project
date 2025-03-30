@@ -24,7 +24,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::prefix('admin')->group(function(){
+Route::middleware('role:admin,employee')->prefix('admin')->group(function() {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('index');
     Route::prefix('food')->group(function(){
         Route::get('/', [AdminController::class, 'showFood'])->name('food.index');

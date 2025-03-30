@@ -70,6 +70,7 @@
   </head>
 
   <body>
+  @php($user = auth()->user())
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
@@ -77,7 +78,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="index.html" class="app-brand-link">
+            <a href="{{ route('index') }}" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <svg
                   width="25"
@@ -565,8 +566,15 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="auth-login-basic.html">
+                      <a
+                          class="dropdown-item"
+                          href=""
+                          onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                      >
                         <i class="bx bx-power-off me-2"></i>
+                          <form action="{{ route('logout') }}" id="logout-form" method="POST" class="d-none">
+                            @csrf
+                          </form>
                         <span class="align-middle">Log Out</span>
                       </a>
                     </li>
