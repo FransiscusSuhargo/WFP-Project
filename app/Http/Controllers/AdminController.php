@@ -260,7 +260,6 @@ class AdminController extends Controller
             return redirect()->route('order.index')->with(['success' => 'Successfully Delete Order ' . $orderQueue]);
         }
         return redirect()->route('order.index')->with(['error' => 'Failed to delete Order ' . $orderQueue]);
-
     }
 
 

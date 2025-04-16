@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FoodController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -61,5 +62,23 @@ Route::middleware('role:admin,employee')->prefix('admin')->group(function() {
         Route::get('/{id}', [AdminController::class, 'editOrder'])->name('order.edit');
         Route::post('/update', [AdminController::class, 'updateOrder'])->name('order.update');
         Route::delete('/delete/{id}', [AdminController::class, 'deleteOrder'])->name('order.delete');
+    });
+});
+
+Route::middleware('role:customer')->prefix('customer')->group(function(){
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('index');
+    Route::prefix('profile')->group(function(){
+        Route::get('/', [HomeController::class, 'showProfile'])->name('profile.index');
+        Route::post('/edit', [HomeController::class, 'updateProfile'])->name('profile.update');
+    });
+    Route::prefix('order')->group(function(){
+        Route::get('/', [HomeController::class, 'showOrder'])->name('order.index');
+        Route::post('/insert', [HomeController::class, 'insertOrder'])->name('order.insert');
+        Route::post('/edit', [HomeController::class, 'updateOrder'])->name('order.update');
+        
+        Route::post('/detail', [HomeController::class, 'showOrderDetail'])->name('order.detail');
+        Route::post('/insertDetail', [HomeController::class, 'insertOrderDetail'])->name('order.detail.insert');
+        Route::post('/updateDetail', [HomeController::class, 'updateOrderDetail'])->name('order.detail.update');
+        Route::post('/deleteDetail', [HomeController::class, 'deleteOrderDetail'])->name('order.detail.delete');
     });
 });
