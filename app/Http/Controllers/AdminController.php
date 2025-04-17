@@ -6,10 +6,12 @@ use App\Models\Customer;
 use App\Models\Foods\Category;
 use App\Models\Foods\Food;
 use App\Models\Orders\Order;
+use App\Models\Orders\OrderDetail;
 use App\Models\Orders\Payments;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use GuzzleHttp\Psr7\Response;
 use PhpParser\Node\Expr\FuncCall;
 use Symfony\Component\HttpFoundation\RateLimiter\RequestRateLimiterInterface;
 
@@ -262,5 +264,41 @@ class AdminController extends Controller
         return redirect()->route('order.index')->with(['error' => 'Failed to delete Order ' . $orderQueue]);
     }
 
+    public function showReportCategory(){
+        $categories = Category::withCount('foods')->orderBy('foods_count', 'desc')->get();
+        return view('admin.report.category', compact('categories'));
+    }
 
+    public function showReportRecap(){
+
+    }
+
+    public function showReportCustomer(){
+        $customers = Customer::withCount('orders')->orderBy('orders_count', 'desc')->get();
+        return view('admin.report.customer', compact('customers'));
+    }
+
+    public function showReportFood(){
+        $foods = OrderDetail::with('food')
+            ->selectRaw('food_id, COUNT(*) as sold_count')
+            ->groupBy('food_id')
+            ->orderByDesc('sold_count')
+            ->get()
+            ->map(function ($item) {
+                return (object)[
+                    'id' => $item->food->id,
+                    'name' => $item->food->name,
+                    'sold_count' => $item->sold_count,
+                ];
+            });
+        return view('admin.report.food', compact('foods'));
+    }
+
+    public function showReportDate(){
+        $orders = Order::selectRaw('DATE(date) as order_date, COUNT(*) as order_count')
+            ->groupBy('order_date')
+            ->orderByDesc('order_count')
+            ->get();
+        return view('admin.report.date', compact('orders'));
+    }       
 }

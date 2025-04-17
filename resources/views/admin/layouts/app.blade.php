@@ -260,15 +260,47 @@
               </a>
             </li>
             <!-- Components -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Reports</span></li>
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Reports</span>
+            </li>
             <!-- Cards -->
-            <li class="menu-item">
+            <li class="menu-item @yield('report-category')">
+              <a href="{{ route('report.category') }}" class="menu-link">
+                <i class='menu-icon bx bx-category'></i>
+                <div data-i18n="Authentications">Category</div>
+              </a>
+            </li>
+            <li class="menu-item @yield('report-recap')">
+              <a href="{{ route('report.recap') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bx-box'></i>
+                <div data-i18n="Authentications">Recap Order</div>
+              </a>
+            </li>
+            <li class="menu-item @yield('report-customer')">
+              <a href="{{ route('report.customer') }}" class="menu-link">
+                <i class='menu-icon bx bx-body'></i>
+                <div data-i18n="Authentications">Customer</div>
+              </a>
+            </li>
+            <li class="menu-item @yield('report-food')">
+              <a href="{{ route('report.food') }}" class="menu-link">
+                <i class='menu-icon bx bxs-food-menu'></i>
+                <div data-i18n="Authentications">Food</div>
+              </a>
+            </li>
+            <li class="menu-item @yield('report-date')">
+              <a href="{{ route('report.date') }}" class="menu-link">
+                <i class='menu-icon bx bx-calendar-week'></i>
+                <div data-i18n="Authentications">Date</div>
+              </a>
+            </li>
+            {{-- <li class="menu-item">
               <a href="cards-basic.html" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-collection"></i>
                 <div data-i18n="Basic">Foods</div>
               </a>
-            </li>
-            <!-- User interface -->
+            </li> --}}
+            {{-- <!-- User interface -->
             <li class="menu-item">
               <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-box"></i>
@@ -398,7 +430,7 @@
                 <i class="menu-icon tf-icons bx bx-crown"></i>
                 <div data-i18n="Boxicons">Boxicons</div>
               </a>
-            </li>
+            </li> --}}
 
             <!-- Forms & Tables -->
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Forms &amp; Tables</span></li>
