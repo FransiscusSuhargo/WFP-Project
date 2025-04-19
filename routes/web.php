@@ -65,7 +65,8 @@ Route::middleware('role:admin,employee')->prefix('admin')->group(function() {
     });
     Route::prefix('report')->group(function(){
         Route::get('/category', [AdminController::class, 'showReportCategory'])->name('report.category');
-        Route::get('/recap', [AdminController::class, 'showReportRecap'])->name('report.recap');
+        Route::get('/recap', [AdminController::class, 'showReportRecap'])->name('report.recap.form');
+        Route::post('/recap', [AdminController::class, 'showReportRecap'])->name('report.recap');
         Route::get('/customer', [AdminController::class, 'showReportCustomer'])->name('report.customer');
         Route::get('/food', [AdminController::class, 'showReportFood'])->name('report.food');
         Route::get('/date', [AdminController::class, 'showReportDate'])->name('report.date');

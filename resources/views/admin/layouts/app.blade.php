@@ -271,7 +271,7 @@
               </a>
             </li>
             <li class="menu-item @yield('report-recap')">
-              <a href="{{ route('report.recap') }}" class="menu-link">
+              <a href="{{ route('report.recap.form') }}" class="menu-link">
                 <i class='menu-icon tf-icons bx bx-box'></i>
                 <div data-i18n="Authentications">Recap Order</div>
               </a>

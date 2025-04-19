@@ -269,8 +269,37 @@ class AdminController extends Controller
         return view('admin.report.category', compact('categories'));
     }
 
-    public function showReportRecap(){
+    public function showReportRecap(Request $request){
+        $monthYear = $request->input('monthYear'); // format: 2025-04
 
+        if ($monthYear) {
+            [$year, $month] = explode('-', $monthYear);
+        } else {
+            $month = now()->month;
+            $year = now()->year;
+        }
+
+        $orders = Order::whereYear('date', $year)
+                        ->whereMonth('date', $month)
+                        ->pluck('id');
+
+        $totalRevenue = OrderDetail::whereIn('order_id', $orders)->sum('subtotal');
+
+        $foodOrders = OrderDetail::whereIn('order_id', $orders)
+                        ->select('food_id')
+                        ->selectRaw('COUNT(*) as total_order')
+                        ->groupBy('food_id')
+                        ->orderBy('total_order', 'desc')
+                        ->with('food')
+                        ->get();
+
+        $totalCustomers = Order::whereYear('date', $year)
+                        ->whereMonth(column: 'date', operator: $month)
+                        ->distinct('customer_id')
+                        ->count('customer_id');
+
+        // return response()->json(compact( 'totalRevenue', 'foodOrders', 'totalCustomers'));
+        return view('admin.report.recap', compact( 'totalRevenue', 'foodOrders', 'totalCustomers'));
     }
 
     public function showReportCustomer(){
