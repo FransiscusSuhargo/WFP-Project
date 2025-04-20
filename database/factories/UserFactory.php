@@ -22,7 +22,7 @@ class UserFactory extends Factory
         return [
             'email' => fake()->unique()->safeEmail(),
             'password' => Hash::make('password123'), 
-            'role' => $this->faker->randomElement(['customer', 'employee'])
+            'role' => $this->faker->randomElement(['customer', 'employee', 'admin'])
         ];
     }
 
