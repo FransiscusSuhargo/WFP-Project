@@ -52,12 +52,16 @@
                                 </td>
                                 <td>
                                     <div class="d-flex gap-5">
-                                        <form action="{{ route('customer.edit', ['id' => $customer->id]) }}"
+                                        <a href="#getFormUpdateCustomer" class="btn btn-outline-primary" data-bs-toggle="modal" onclick="getCustomerForm({{$customer->id}})"><i class='bx bxs-edit-alt'></i>Edit</a>
+
+                                        {{-- <a class="btn btn-outline-primary" href="#getFormUpdateCustomer" onclick="getCustomerForm({{$customer->id}})"><i --}}
+                                                    {{-- class='bx bxs-edit-alt'></i>Edit</a> --}}
+                                        {{-- <form action="{{ route('customer.edit', ['id' => $customer->id]) }}"
                                             method="get">
                                             @csrf
                                             <button class="btn btn-outline-primary"><i
                                                     class='bx bxs-edit-alt'></i>Edit</button>
-                                        </form>
+                                        </form> --}}
                                         <form action="{{ route('customer.delete', ['id' => $customer->id]) }}"
                                             method="post" onsubmit="return confirm('Are you sure?');">
                                             @csrf
@@ -75,7 +79,41 @@
                 </table>
             </div>
         </div>
-
     </div>
 
+    @push('modals')
+    <div class="modal fade" id="getFormUpdateCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Update Customer</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modalUpdateCustomerBody">
+          </div>
+        </div>
+      </div>
+    </div>
+    @endpush
+@endsection
+
+@section('script')
+    <script>
+        function getCustomerForm(id) {
+            const url = "{{ route('customer.edit', ['id' => '__id__']) }}".replace('__id__', id);
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {
+                    '_token' :  '<?php echo csrf_token(); ?>'
+                },
+                success: function (response) {
+                    if (response.status === "success") {
+                        $("#modalUpdateCustomerBody").html(response.msg);
+                    }
+                }
+            });            
+        }
+    </script>
+    
 @endsection

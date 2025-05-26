@@ -52,10 +52,12 @@
                                         class="badge bg-label-{{ $order->status == 'ready' ? 'success' : ($order->status == 'finished' ? 'warning' : 'danger') }}">{{ $order->status }}</span>
                                 </td>
                                 <td>
-                                    <form action="{{ route('order.edit', ['id' => $order->id]) }}" method="get">
+                                    <a href="#getFormUpdateOrder" onclick="getFormOrder({{$order->id}})" class="btn btn-outline-primary" data-bs-toggle="modal"><i
+                                                class='bx bxs-edit-alt'></i>Edit</a>
+                                    {{-- <form action="{{ route('order.edit', ['id' => $order->id]) }}" method="get">
                                         <button class="btn btn-outline-primary w-100"><i
                                                 class='bx bxs-edit-alt'></i>Edit</button>
-                                    </form>
+                                    </form> --}}
                                     <form action="{{ route('order.delete', $order->id) }}" method="POST"
                                         onsubmit="return confirm('Are you sure?');">
                                         @csrf
@@ -73,4 +75,43 @@
         </div>
     </div>
 
+    @push('modals')
+    <div class="modal fade" id="getFormUpdateOrder" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Update Order</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modalUpdateOrderBody">
+          </div>
+        </div>
+      </div>
+    </div>
+    @endpush
+
+@endsection
+
+@section('script')
+<script>
+    function getFormOrder(id) {
+        const url = "{{ route('order.edit', ['id' => '__id__']) }}".replace('__id__', id);
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: {
+                '_token' :  '<?php echo csrf_token(); ?>'
+            },
+            success: function (response) {
+                if (response.status === "success") {
+                    $("#modalUpdateOrderBody").html(response.msg);
+                }
+                
+            }
+        });
+        
+    }
+</script>
+    
 @endsection

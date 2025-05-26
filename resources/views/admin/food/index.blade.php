@@ -50,10 +50,11 @@
                                 <td>Rp. {{ $food->price }},-</td>
                                 <td>{{ $food->category->name }}</td>
                                 <td>
-                                    <form action="{{ route('food.edit', ['id' => $food->id]) }}" method="get">
+                                    <a href="#getFormUpdateFood" class="btn btn-outline-primary" data-bs-toggle="modal" onclick="getFormFood({{$food->id}})"><i class='bx bxs-edit-alt'></i>Edit</a>
+                                    {{-- <form action="{{ route('food.edit', ['id' => $food->id]) }}" method="get">
                                         <button class="btn btn-outline-primary w-100"><i
                                                 class='bx bxs-edit-alt'></i>Edit</button>
-                                    </form>
+                                    </form> --}}
                                     <form action="{{ route('food.delete', $food->id) }}" method="POST"
                                         onsubmit="return confirm('Are you sure?');">
                                         @csrf
@@ -70,4 +71,39 @@
             </div>
         </div>
     </div>
+    @push('modals')
+    <div class="modal fade" id="getFormUpdateFood" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Update Food</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="modalUpdateFoodBody">
+          </div>
+        </div>
+      </div>
+    </div>
+    @endpush
+@endsection
+
+@section('script')
+    <script>
+        function getFormFood(id) {
+            const url = "{{ route('food.edit', ['id' => '__id__']) }}".replace('__id__', id);
+            $.ajax({
+                type: "GET",
+                url: url,
+                data: {
+                '_token' :  '<?php echo csrf_token(); ?>'
+                },
+                success: function (response) {
+                    if (response.status === "success") {
+                        $("#modalUpdateFoodBody").html(response.msg);
+                    }
+                    
+                }
+            });
+        }
+    </script>
 @endsection

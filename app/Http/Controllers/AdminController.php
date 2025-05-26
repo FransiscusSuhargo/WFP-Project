@@ -35,7 +35,11 @@ class AdminController extends Controller
     public function editFood(String $id){
         $food = Food::find($id);
         $categories = Category::all();
-        return view('admin.food.edit', compact('food', 'categories'));
+        return response()->json([
+            'status' => 'success', 
+            'msg' => view('admin.food.getEditForm', compact('categories', 'food'))->render()
+        ],200);
+        // return view('admin.food.edit', compact('food', 'categories'));
     }
 
     public function addFood(){
@@ -67,7 +71,7 @@ class AdminController extends Controller
         $food->description = $request->description;
         $food->nutrition_value = $request->nutrition;
         $food->price = $request->price;
-        $food->category->id = $request->category;
+        $food->category_id = $request->category;
         if ($food->save()) {
             return redirect()->route('food.index')->with('success', 'Successfully updated food!');
         }    
@@ -103,7 +107,8 @@ class AdminController extends Controller
 
     public function editCategory($id){
         $category = Category::find($id);
-        return view('admin.category.edit', compact('category'));
+        return response()->json(['status' => 'success', "msg" => view('admin.category.getEditForm', compact('category'))->render()]);
+        // return view('admin.category.edit', compact('category'));
 
     }
 
@@ -111,7 +116,7 @@ class AdminController extends Controller
         $category = Category::find($request->id);
         $category->name = $request->name;
         if ($category->save()) return redirect()->route('category.index')->with('success', 'Successfully Edit Category!');
-        return redirect()->back()->withInput()->withErrors(['error' => 'Failed to update customer!']);
+        return redirect()->back()->withInput()->withErrors(['error' => 'Failed to update category!']);
 
     }
 
@@ -174,7 +179,11 @@ class AdminController extends Controller
     public function editCustomer($id){
         $customer = Customer::find($id);
         $users = User::all();
-        return view('admin.customer.edit', compact('customer', 'users'));
+        return response()->json([
+            'status' => 'success', 
+            'msg' => view('admin.customer.getEditForm', compact('customer', 'users'))->render()
+        ]);
+        // return view('admin.customer.edit', compact('customer', 'users'));
     }
 
     public function updateCustomer(Request $request){
@@ -234,7 +243,11 @@ class AdminController extends Controller
         $order = Order::find($id);
         $customers = Customer::all();
         $payments = Payments::all();
-        return view('admin.order.edit', compact('order', 'customers', 'payments'));
+        return response()->json([
+            'status' => "success", 
+            'msg' =>view('admin.order.getEditForm', compact('order', 'customers', 'payments'))->render()
+        ]);
+        // return view('admin.order.edit', compact('order', 'customers', 'payments'));
     }
 
     public function updateOrder(Request $request){
