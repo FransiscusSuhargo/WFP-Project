@@ -307,7 +307,7 @@ class AdminController extends Controller
                         ->get();
 
         $totalCustomers = Order::whereYear('date', $year)
-                        ->whereMonth(column: 'date', operator: $month)
+                        ->whereMonth('date', $month)
                         ->distinct('customer_id')
                         ->count('customer_id');
 
