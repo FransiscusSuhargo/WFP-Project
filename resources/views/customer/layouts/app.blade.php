@@ -79,7 +79,7 @@
     </div>
 
     {{-- modal cart --}}
-    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart" aria-labelledby="My Cart">
+    {{-- <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart" aria-labelledby="My Cart">
       <div class="offcanvas-header justify-content-center">
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
@@ -120,7 +120,7 @@
           <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
         </div>
       </div>
-    </div>
+    </div> --}}
     
     <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasSearch" aria-labelledby="Search">
       <div class="offcanvas-header justify-content-center">
@@ -146,7 +146,7 @@
           
           <div class="col-sm-4 col-lg-3 text-center text-sm-start">
             <div class="main-logo">
-              <a href="index.html">
+              <a href="{{route('home')}}">
                 <img src="images/logo.png" alt="logo" class="img-fluid">
               </a>
             </div>
@@ -186,7 +186,7 @@
                 </a>
               </li>
               <li>
-                <a href="#" class="rounded-circle bg-light p-2 mx-1">
+                <a href="{{route('cart')}}" class="rounded-circle bg-light p-2 mx-1">
                   <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#cart"></use></svg>
                 </a>
               </li>
