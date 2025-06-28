@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
@@ -23,12 +24,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/detail/{food}', [HomeController::class, "detailMenu"])->name('detailmenu');
-Route::get('/cart', [HomeController::class, "cart"])->name('cart');
-Route::put('/goto-cart/{food}', [HomeController::class, "putCart"])->name('putCart');
-Route::delete('/goto-cart/{food}', [HomeController::class, "deleteCart"])->name('deleteCart');;
+
 Route::post('/submit', [HomeController::class, "checkout"])->name('checkout')->middleware('auth');
 
 Route::middleware('role:admin,employee')->prefix('admin')->group(function () {
@@ -82,7 +83,8 @@ Route::middleware('role:customer')->prefix('customer')->group(function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('index');
     Route::prefix('profile')->group(function () {
         Route::get('/', [HomeController::class, 'showProfile'])->name('profile.index');
-        Route::post('/edit', [HomeController::class, 'updateProfile'])->name('profile.update');
+        Route::get('/edit/profile', [HomeController::class, 'editProfile'])->name('profile.edit');
+        Route::post('/update/profile', [HomeController::class, 'updateProfile'])->name('profile.update');
     });
     Route::prefix('order')->group(function () {
         Route::get('/', [HomeController::class, 'showOrder'])->name('order.index');
@@ -93,5 +95,14 @@ Route::middleware('role:customer')->prefix('customer')->group(function () {
         Route::post('/insertDetail', [HomeController::class, 'insertOrderDetail'])->name('order.detail.insert');
         Route::post('/updateDetail', [HomeController::class, 'updateOrderDetail'])->name('order.detail.update');
         Route::post('/deleteDetail', [HomeController::class, 'deleteOrderDetail'])->name('order.detail.delete');
+
+        Route::get('/cart', [HomeController::class, "cart"])->name('cart');
+        Route::get('/detail/{id}', [HomeController::class, "detailMenu"])->name('detailmenu');
+        Route::put('/goto-cart/{food}', [HomeController::class, "putCart"])->name('putCart');
+        Route::delete('/goto-cart/{food}', [HomeController::class, "deleteCart"])->name('deleteCart');
+
+        Route::post('/show/customize/{id}',[HomeController::class, "showCustomizeOrder"])->name('show.customize.order');
+        Route::post('/customize/{id}',[HomeController::class, "customizeOrder"])->name('customize.order');
+
     });
 });

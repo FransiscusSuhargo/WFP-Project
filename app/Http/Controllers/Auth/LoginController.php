@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -44,7 +45,7 @@ class LoginController extends Controller
                 return $this->redirectTo;
                 break;
             case 'customer':
-                $this->redirectTo = '/';
+                $this->redirectTo = '/customer/dashboard';
                 return $this->redirectTo;
                 break;
             default:
@@ -57,4 +58,15 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
+    
+    public function logout(Request $request)
+    {
+        Auth::logout(); // Logout user
+
+        $request->session()->invalidate(); // Invalidate session
+        $request->session()->regenerateToken(); // Regenerate CSRF token
+
+        return redirect('/login')->with('success', 'You have been logged out.');
+    }
+
 }

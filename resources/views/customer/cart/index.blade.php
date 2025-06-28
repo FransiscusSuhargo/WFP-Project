@@ -2,10 +2,10 @@
 @section('pageName', 'Cart Page')
 
 @section('content')
-    @if (session('status'))
-        <div class="box success-box">{{ session('status') }}</div>
-    @endif
-    @if (count($cart) > 0)
+    <div class="container-fluid">
+        @if (session('status'))
+            <div class="alert alert-success" role="alert">{{ session('status') }}</div>
+        @endif
         @if (count($cart) > 0)
             <table class="table">
                 <thead class="thead-dark">
@@ -16,45 +16,83 @@
                         <th>Nutrition Value</th>
                         <th>Price</th>
                         <th>Quantity</th>
+                        <th>Add On</th>
+                        <th>Modifier</th>
+                        <th>Note</th>
                         <th>Control</th>
                     </tr>
                 </thead>
-                @foreach ($cart as $r)
-                    <tr>
-                        <td>
-                            <p>{{ $r['food']->name }}</p>
-                        </td>
-                        <td>
-                            <p>{{ $r['food']->category->name }}</p>
-                        </td>
-                        <td>
-                            <p>{{ $r['food']->description }}</p>
-                        </td>
-                        <td>
-                            <p>{{ $r['food']->nutrition_value }}</p>
-                        </td>
-                        <td>
-                            <p>{{ $r['food']->price }}</p>
-                        </td>
-                        <td>{{ $r['quantity'] }}</td>
-                        <td><a class="btn btn-warning" href="{{ url('/detail/' . $r['id']) }}">Lihat</a>
-                            <form action="{{ route('deleteCart', $r['id']) }}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger">Batalkan</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
+                @for ($i = 0; $i < count($cart); $i++)
+                    @php
+                        $addons = $cart[$i]['food']->addons ?? [];
+                        $modifiers = $cart[$i]['food']->modifiers ?? [];
+                        $maxRows = max(count($addons), count($modifiers), 1);
+                    @endphp
+
+                    @for ($r = 0; $r < $maxRows; $r++)
+                        <tr>
+                            @if ($r === 0)
+                                <td rowspan="{{ $maxRows }}">{{ $cart[$i]['food']->name }}</td>
+                                <td rowspan="{{ $maxRows }}">{{ $cart[$i]['food']->category->name ?? '-' }}</td>
+                                <td rowspan="{{ $maxRows }}">{{ $cart[$i]['food']->description }}</td>
+                                <td rowspan="{{ $maxRows }}">{{ $cart[$i]['food']->nutrition_value }}</td>
+                                <td rowspan="{{ $maxRows }}">{{ $cart[$i]['food']->price }}</td>
+                                <td rowspan="{{ $maxRows }}">{{ $cart[$i]['quantity'] }}</td>
+                            @endif
+
+                            {{-- Addon column --}}
+                            <td>
+                                {{ $addons[$r]->name ?? '' }}
+                            </td>
+
+                            {{-- Modifier column --}}
+                            <td>
+                                {{ $modifiers[$r]->name ?? '' }}
+                            </td>
+                            @if ($r === 0)
+                                <td rowspan="{{ $maxRows }}">{{ $cart[$i]['food']->note ?? '' }}</td>
+                            @endif
+
+                            @if ($r === 0)
+                                <td rowspan="{{ $maxRows }}">
+                                    <a class="btn btn-warning w-100 mb-1"
+                                        href="{{ route('detailmenu', $cart[$i]['id']) }}">Lihat</a>
+
+                                    <form method="POST" action="{{ route('show.customize.order', $i) }}">
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-light w-100 mb-1">Customize</button>
+                                    </form>
+
+                                    <form action="{{ route('deleteCart', $cart[$i]['id']) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger w-100">Batalkan</button>
+                                    </form>
+                                </td>
+                            @endif
+                        </tr>
+                    @endfor
+                @endfor
+
             </table>
         @else
-            <div class="box info-box">Belum ada data yang dibuat</div>
+            <div class="text-center">Belum ada pesanan yang dibuat</div>
         @endif
-    @endif
-    <form method="POST" action="{{ route('checkout') }}">
-        @csrf
-        <input type="submit" value="Checkout" class="btn btn-success">
-    </form>
+        @if (count($cart) != 0)
+            <form method="POST" action="{{ route('checkout') }}">
+                @csrf
+                <div class="form-group mb-3">
+                    <label for="">Dine In/Takeaway</label>
+                    <select name="order_type" id="" class="form-select">
+                        <option value="0">Dine-in</option>
+                        <option value="0">Takeaway</option>
+                    </select>
+                </div>
+                <input type="submit" value="Checkout" class="btn btn-success w-100">
+            </form>
+        @endif
+
+    </div>
 @endsection
 
 @section('script')
