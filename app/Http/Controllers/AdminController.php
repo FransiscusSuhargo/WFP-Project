@@ -36,7 +36,7 @@ class AdminController extends Controller
         $food = Food::find($id);
         $categories = Category::all();
         return response()->json([
-            'status' => 'success', 
+            'status' => 'success',
             'msg' => view('admin.food.getEditForm', compact('categories', 'food'))->render()
         ],200);
         // return view('admin.food.edit', compact('food', 'categories'));
@@ -54,7 +54,7 @@ class AdminController extends Controller
         $food->description = $request->description;
         $food->nutrition_value = $request->nutrition;
         $food->price = $request->price;
-        $food->category_id = $request->category; 
+        $food->category_id = $request->category;
         $food->created_at = Carbon::now();
         $food->updated_at = Carbon::now();
 
@@ -74,7 +74,7 @@ class AdminController extends Controller
         $food->category_id = $request->category;
         if ($food->save()) {
             return redirect()->route('food.index')->with('success', 'Successfully updated food!');
-        }    
+        }
         return redirect()->back()->withInput()->withErrors(['error' => 'Failed to update food!']);
     }
 
@@ -173,14 +173,14 @@ class AdminController extends Controller
             return redirect()->route('customer.index')->with('success', 'Successfully added data!');
         }
         return redirect()->route('customer.index')->withErrors('Failed to add data. Please try again.');
-        
+
     }
 
     public function editCustomer($id){
         $customer = Customer::find($id);
         $users = User::all();
         return response()->json([
-            'status' => 'success', 
+            'status' => 'success',
             'msg' => view('admin.customer.getEditForm', compact('customer', 'users'))->render()
         ]);
         // return view('admin.customer.edit', compact('customer', 'users'));
@@ -213,7 +213,7 @@ class AdminController extends Controller
 
     //Master Order
     public function showOrder(){
-        $orders = Order::all();
+        $orders = Order::query()->orderBy('created_at', 'DESC')->get();
         return view('admin.order.index', compact('orders'));
     }
 
@@ -244,7 +244,7 @@ class AdminController extends Controller
         $customers = Customer::all();
         $payments = Payments::all();
         return response()->json([
-            'status' => "success", 
+            'status' => "success",
             'msg' =>view('admin.order.getEditForm', compact('order', 'customers', 'payments'))->render()
         ]);
         // return view('admin.order.edit', compact('order', 'customers', 'payments'));
@@ -342,5 +342,5 @@ class AdminController extends Controller
             ->orderByDesc('order_count')
             ->get();
         return view('admin.report.date', compact('orders'));
-    }       
+    }
 }

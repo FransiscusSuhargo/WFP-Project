@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamp('date');
             $table->string('queue_number', 4);
             $table->enum('type', ['Dine-in', 'Takeaway']);
-            $table->enum('status', ['process', 'ready', 'finished']);
+            $table->enum('status', ['pending', 'process', 'ready', 'finished']);
             $table->timestamps();
         });
     }
