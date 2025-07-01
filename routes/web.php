@@ -89,7 +89,7 @@ Route::middleware('role:customer')->prefix('customer')->group(function () {
         Route::post('/update/profile', [HomeController::class, 'updateProfile'])->name('profile.update');
     });
     Route::prefix('order')->group(function () {
-        Route::get('/', [HomeController::class, 'showOrder'])->name('order.index');
+        Route::get('/', [HomeController::class, 'showOrder'])->name('customer.order.index');
 //        Route::post('/insert', [HomeController::class, 'insertOrder'])->name('order.insert');
 //        Route::post('/edit', [HomeController::class, 'updateOrder'])->name('order.update');
 

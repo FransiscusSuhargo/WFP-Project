@@ -43,7 +43,7 @@
                             <tr>
                                 <td>{{ $order->id }}</td>
                                 <td>{{ $order->customer->name }}</td>
-                                <td>{{ $order->payment->name }}</td>
+                                <td>{{ ucwords(str_replace("_", " ", $order->payment_type))}}</td>
                                 <td>{{ $order->date }}</td>
                                 <td> <span
                                         class="badge bg-label-{{ $order->type == 'Dine-in' ? 'primary' : 'dark' }}">{{ $order->type }}</span>
@@ -107,11 +107,11 @@
                 if (response.status === "success") {
                     $("#modalUpdateOrderBody").html(response.msg);
                 }
-                
+
             }
         });
-        
+
     }
 </script>
-    
+
 @endsection
