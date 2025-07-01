@@ -12,9 +12,6 @@
                 <div class="card" style="height: 100%;">
                     <div class="card-body overflow-auto">
                         <h5 class="card-title text-warning text-center">Process</h5>
-{{--                        @foreach($processOrders as $process)--}}
-{{--                            <h5>{{ $process->queue_number }}</h5>--}}
-{{--                        @endforeach--}}
                         <div id="viewProcessContainer">
                             {!! $viewProcess !!}
                         </div>
@@ -25,9 +22,6 @@
                 <div class="card" style="height: 100%;">
                     <div class="card-body overflow-auto">
                         <h5 class="card-title text-success text-center">Ready</h5>
-{{--                        @foreach($readyOrders as $ready)--}}
-{{--                            <h5>{{ $ready->queue_number }}</h5>--}}
-{{--                        @endforeach--}}
                         <div id="viewReadyContainer">
                             {!! $viewReady !!}
                         </div>
