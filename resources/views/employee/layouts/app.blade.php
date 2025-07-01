@@ -152,7 +152,13 @@
                 <li class="menu-item @yield('order')">
                     <a href="{{ route('employee.index') }}" class="menu-link">
                         <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                        <div data-i18n="Analytics">Order</div>
+                        <div data-i18n="Analytics">New Order</div>
+                    </a>
+                </li>
+                <li class="menu-item @yield('finish-order')">
+                    <a href="{{ route('employee.finish') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                        <div data-i18n="Analytics">Ready Order</div>
                     </a>
                 </li>
                 <li class="menu-item @yield('tracking')">

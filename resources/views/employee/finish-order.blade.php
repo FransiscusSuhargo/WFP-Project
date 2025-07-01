@@ -1,5 +1,5 @@
 @extends('employee.layouts.app')
-@section('order', 'active')
+@section('finish-order', 'active')
 @section('pageName', 'Order Page')
 
 @section('style')
@@ -19,16 +19,16 @@
 
 @section('script')
     <script>
-        $(document).on('click', '.btnReady', function (e) {
+        $(document).on('click', '.btnFinish', function (e) {
             e.preventDefault();
-            $(".btnReady").prop("disabled", true);
+            $(".btnFinish").prop("disabled", true);
 
             let orderId = $(this).data('order-id');
             console.log(orderId);
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('employee.set-ready') }}", // Replace with your route
+                url: "{{ route('employee.set-finish') }}", // Replace with your route
                 data: {
                     '_token': '{{ csrf_token() }}',
                     'order_id': orderId

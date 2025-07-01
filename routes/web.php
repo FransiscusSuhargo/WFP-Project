@@ -120,14 +120,28 @@ Route::middleware('role:customer')->prefix('customer')->group(function () {
 });
 
 Route::middleware('role:employee')->prefix('employee')->group(function () {
+    // Dashboard
     Route::get('/', [EmployeeController::class, 'index'])
         ->name('employee.index');
+//    Route::post('/refresh-order', [EmployeeController::class, 'refreshOrder'])
+//        ->name('employee.refresh');
+    Route::get('/set-ready', [EmployeeController::class, 'index']);
+    Route::post('/set-ready', [EmployeeController::class, 'setReady'])
+        ->name('employee.set-ready');
+
+    Route::get('/set-finish', [EmployeeController::class, 'readyOrder'])
+        ->name('employee.finish');
+    Route::post('/set-finish', [EmployeeController::class, 'setFinish'])
+        ->name('employee.set-finish');
+
+
+    // Tracking
     Route::get('/tracking', [EmployeeController::class, 'tracking'])
         ->name('employee.tracking');
+    Route::post('/refresh-tracking', [EmployeeController::class, 'refreshOrderTracking'])
+        ->name('employee.tracking.refresh');
 
     Route::post('/test-tracking', [EmployeeController::class, 'testPusher'])
         ->name('employee.tracking.test');
 
-    Route::post('/refresh-tracking', [EmployeeController::class, 'refreshOrderTracking'])
-        ->name('employee.tracking.refresh');
 });
