@@ -24,13 +24,14 @@
                         <tr>
                             <th width="60%">Order Date</th>
                             <td> :&nbsp;&nbsp;</td>
-                            <td>{{ $order->created_at->format('F j, Y g:i A') }}</td>
+                            <td>{{ $order->created_at->timezone('Asia/Jakarta')->format('F j, Y g:i A') }}</td>
                         </tr>
                     </table>
                     <table class="table table-striped mt-4">
                         <thead class="table-dark">
                             <tr>
                                 <th class="text-center text-white">Name</th>
+                                <th class="text-center text-white">Price</th>
                                 <th class="text-center text-white">Note</th>
                                 <th class="text-center text-white">Modifiers</th>
                                 <th class="text-center text-white">Addons</th>
@@ -48,6 +49,7 @@
                                 @endphp
                                 <tr>
                                     <td>{{ $food->name }}</td>
+                                    <td>{{ $food->price }}</td>
                                     <td>{{ $orderDetails->note }}</td>
                                     <td class="@if(count($modifiers) == 0) text-center @endif">
                                         @if(count($modifiers) > 0)
@@ -73,13 +75,13 @@
                                             -
                                         @endif
                                     </td>
-                                    <td class="text-center">{{ $orderDetails->subtotal }}</td>
+                                    <td class="text-center">{{ $subtotal }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot class="table-secondary">
                             <tr class="fw-bold">
-                                <td colspan="4" class="text-center">Total</td>
+                                <td colspan="5" class="text-center">Total</td>
                                 <td class="text-center">{{ $total  }}</td>
                             </tr>
                         </tfoot>
