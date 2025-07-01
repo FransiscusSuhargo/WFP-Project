@@ -11,7 +11,13 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        return view('employee.index');
+        $orders = Order::query()
+            ->whereDate("created_at", Carbon::now())
+            ->where('status', 'process')
+            ->orderBy('queue_number', 'DESC')
+            ->paginate(7);
+
+        return view('employee.index', compact('orders'));
     }
 
     public function refreshOrderTracking(Request $request)
