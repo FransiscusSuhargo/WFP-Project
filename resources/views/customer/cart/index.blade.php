@@ -132,7 +132,8 @@
                                 },
                                 success: function (response) {
                                     console.log(response);
-                                    window.location.href = response.redirect_url;
+                                    // window.location.href = response.redirect_url;
+                                    window.location.replace(response.redirect_url);
                                 }
                             })
                         },

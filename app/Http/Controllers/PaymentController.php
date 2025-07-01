@@ -135,7 +135,8 @@ class PaymentController extends Controller
         $request->session()->forget('cart');
         return response()->json([
             'status' => "OK",
-            'code' => 200
+            'code' => 200,
+            'redirect_url' => route('customer.order.index'),
         ], 200);
     }
 
