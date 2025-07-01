@@ -15,7 +15,7 @@
             <td style="text-align: center;">{{ $order->queue_number }}</td>
             <td style="text-align: center;">{{ $order->status }}</td>
             <td style="text-align: center;">{{ $order->type }}</td>
-            <td style="text-align: center;">{{ $order->payment_type }}</td>
+            <td style="text-align: center;">{{ ucwords(str_replace("_", " ", $order->payment_type)) }}</td>
             <td style="text-align: center;">{{ $order->created_at->diffForHumans() }}</td>
             <td style="text-align: center;">
                 <a href="{{ route('employee.order', ['order_id' => $order->id]) }}" class="btn btn-secondary">Detail</a>
