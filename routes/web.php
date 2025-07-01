@@ -134,6 +134,10 @@ Route::middleware('role:employee')->prefix('employee')->group(function () {
     Route::post('/set-finish', [EmployeeController::class, 'setFinish'])
         ->name('employee.set-finish');
 
+    // Detail
+    Route::get('/order/{order_id}', [EmployeeController::class, 'detailOrder'])
+        ->name('employee.order');
+
 
     // Tracking
     Route::get('/tracking', [EmployeeController::class, 'tracking'])

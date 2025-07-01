@@ -18,6 +18,7 @@
             <td style="text-align: center;">{{ $order->payment_type }}</td>
             <td style="text-align: center;">{{ $order->created_at->diffForHumans() }}</td>
             <td style="text-align: center;">
+                <a href="{{ route('employee.order', ['order_id' => $order->id]) }}" class="btn btn-secondary">Detail</a>
                 @if($order->status == 'process')
                     <button type="button" class="btn btn-warning btnReady" data-order-id="{{ $order->id }}">Set to Ready</button>
                 @else

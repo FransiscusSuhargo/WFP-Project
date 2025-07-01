@@ -50,6 +50,19 @@ class EmployeeController extends Controller
         return view('employee.finish-order', compact('orders', 'orderView'));
     }
 
+    public function detailOrder(Request $request, int $order_id)
+    {
+        $order = Order::with([
+            'orderDetails',
+            'orderDetails.modifiers',
+            'orderDetails.addons'
+        ])
+        ->find($order_id);
+        $total = $order->orderDetails()->get()->sum('subtotal');
+//        dd($order);
+        return view('employee.order', compact('order', 'total'));
+    }
+
 //    public function refreshOrder(Request $request)
 //    {
 //        $orders = Order::query()
