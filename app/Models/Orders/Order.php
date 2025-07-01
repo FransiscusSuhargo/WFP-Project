@@ -13,8 +13,9 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        "payment_id", "customer_id", "date",
-        "queue_number", "type", "status"
+        "customer_id", "date",
+        "queue_number", "type", "status", 'payment_type',
+        'snap_token'
     ];
 
     public function customer() : BelongsTo
@@ -22,10 +23,10 @@ class Order extends Model
         return $this->belongsTo(Customer::class, "customer_id");
     }
 
-    public function payment() : BelongsTo
-    {
-        return $this->belongsTo(Payments::class, 'payment_id');
-    }
+//    public function payment() : BelongsTo
+//    {
+//        return $this->belongsTo(Payments::class, 'payment_id');
+//    }
 
     public function orderDetails() : HasMany
     {

@@ -144,7 +144,7 @@
               <strong>$20</strong>
             </li>
           </ul>
-  
+
           <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
         </div>
       </div>
@@ -208,6 +208,13 @@
                         <a href="{{ route('cart') }}" class="rounded-circle bg-light p-2 mx-1">
                             <svg width="24" height="24" viewBox="0 0 24 24">
                                 <use xlink:href="#cart"></use>
+                            </svg>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('customer.order.index') }}" class="rounded-circle bg-light p-2 mx-1">
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                                <use xlink:href="#heart"></use>
                             </svg>
                         </a>
                     </li>

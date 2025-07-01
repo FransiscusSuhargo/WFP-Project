@@ -19,14 +19,16 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->foreignIdFor(Payments::class, 'payment_id')
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
+//            $table->foreignIdFor(Payments::class, 'payment_id')
+//                ->constrained()
+//                ->cascadeOnUpdate()
+//                ->cascadeOnDelete();
+            $table->string('payment_type')->nullable();
             $table->timestamp('date');
+            $table->string('snap_token')->default("");
             $table->string('queue_number', 4);
             $table->enum('type', ['Dine-in', 'Takeaway']);
-            $table->enum('status', ['pending', 'process', 'ready', 'finished']);
+            $table->enum('status', ['pending', 'process', 'ready', 'finished', 'expired']);
             $table->timestamps();
         });
     }

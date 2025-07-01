@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-// use Krlove\EloquentModelGenerator\Model\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Krlove\EloquentModelGenerator\Model\HasOne;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -51,12 +51,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function customers() : HasMany
+    public function customer() : \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->hasMany(Customer::class, 'user_id');
+        return $this->hasOne(Customer::class, 'user_id');
     }
-    public function employees()
+    public function employee(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->hasMany(Employee::class, 'user_id');
+        return $this->hasOne(Employee::class, 'user_id');
     }
 }

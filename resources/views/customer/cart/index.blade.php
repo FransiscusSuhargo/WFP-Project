@@ -79,21 +79,102 @@
             <div class="text-center">Belum ada pesanan yang dibuat</div>
         @endif
         @if (count($cart) != 0)
-            <form method="POST" action="{{ route('checkout') }}">
-                @csrf
+{{--            <form method="POST" action="{{ route('checkout') }}">--}}
+{{--                @csrf--}}
+{{--                </form>--}}
                 <div class="form-group mb-3">
                     <label for="">Dine In/Takeaway</label>
-                    <select name="order_type" id="" class="form-select">
-                        <option value="0">Dine-in</option>
-                        <option value="0">Takeaway</option>
+                    <select name="order_type" id="order_type" class="form-select">
+                        <option value="Dine-in">Dine-in</option>
+                        <option value="Takeaway">Takeaway</option>
                     </select>
                 </div>
-                <input type="submit" value="Checkout" class="btn btn-success w-100">
-            </form>
-        @endif
+                <input
+                    type="submit"
+                    value="Checkout"
+                    class="btn btn-success w-100"
+                    id="pay-button"
+                >
+            @endif
 
     </div>
 @endsection
 
 @section('script')
+    <script type="text/javascript"
+            src="https://app.sandbox.midtrans.com/snap/snap.js"
+            data-client-key="{{ config('midtrans.client_key') }}"></script>
+    <script>
+        // const payButton = document.getElementById('pay-button');
+        const payButton = $("#pay-button");
+        const orderType = $("#order_type").val();
+        payButton.on('click', function () {
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('customer.order.checkout') }}',
+                data: {
+                    '_token': '{{ csrf_token() }}',
+                    'order_type': orderType
+                },
+                success: function (response) {
+
+                    let token = response.snap_token;
+                    let orderId = response.order_id;
+
+                    window.snap.pay(token, {
+                        onSuccess: function (result) {
+                            // Hapus Cart
+                            $.ajax({
+                                type: 'POST',
+                                url: '{{ route('customer.order.checkout.success') }}',
+                                data: {
+                                    '_token': '{{ csrf_token() }}',
+                                },
+                                success: function (response) {
+                                    window.location.href = response.redirect_url;
+                                }
+                            })
+                        },
+                        onPending: function (result) {
+                            alert("Waiting your payment!")
+                        },
+                        onError: function (result) {
+                            // alert("Payment failed");
+                            // Hapus Order
+                            $.ajax({
+                                type: 'POST',
+                                url: '{{ route('customer.order.checkout.failed') }}',
+                                data: {
+                                    '_token': '{{ csrf_token() }}',
+                                    'order_id': orderId
+                                },
+                                success: function (response) {
+                                    alert("Order cancelled successfully");
+                                }
+                            })
+                        },
+                        onClose: function () {
+                            // alert("Close");
+                            // Hapus Order
+                            $.ajax({
+                                type: 'POST',
+                                url: '{{ route('customer.order.checkout.failed') }}',
+                                data: {
+                                    '_token': '{{ csrf_token() }}',
+                                    'order_id': orderId
+                                },
+                                success: function (response) {
+                                    alert("Order cancelled successfully");
+                                }
+                            })
+                        }
+                    })
+                },
+                error: function (xhr) {
+                    console.log(xhr)
+                }
+            })
+        })
+
+    </script>
 @endsection

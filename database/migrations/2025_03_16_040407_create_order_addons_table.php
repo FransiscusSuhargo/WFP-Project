@@ -23,7 +23,7 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->integer('count');
+            $table->integer('count')->default(1);
             $table->timestamps();
         });
     }

@@ -40,5 +40,53 @@ class ModifierSeeder extends Seeder
                 'type' => 'portion'
             ],
         ]);
+
+        DB::table('food_modifiers')
+            ->insert([
+                // Carbonara
+                [
+                    'food_id' => 1,
+                    'modifier_id' => 1
+                ],
+                [
+                    'food_id' => 1,
+                    'modifier_id' => 3
+                ],
+                [
+                    'food_id' => 1,
+                    'modifier_id' => 4
+                ],
+                // Lasagna
+                [
+                    'food_id' => 2,
+                    'modifier_id' => 1
+                ],
+                [
+                    'food_id' => 2,
+                    'modifier_id' => 2
+                ],
+                [
+                    'food_id' => 2,
+                    'modifier_id' => 3
+                ],
+                [
+                    'food_id' => 2,
+                    'modifier_id' => 4
+                ],
+                // Salad
+                [
+                    'food_id' => 3,
+                    'modifier_id' => 4
+                ],
+                // Salmon
+                [
+                    'food_id' => 6,
+                    'modifier_id' => 2
+                ],
+                [
+                    'food_id' => 6,
+                    'modifier_id' => 4
+                ]
+            ]);
     }
 }

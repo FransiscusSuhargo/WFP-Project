@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('test', [PaymentController::class, 'test']);
+Route::post('force-pending', [PaymentController::class, 'forcePending']);
+Route::post('force-success', [PaymentController::class, 'forceSuccess']);
+Route::post('force-expired', [PaymentController::class, 'forceExpired']);
+
+Route::post('/payment/midtrans-callback', [PaymentController::class, 'midtransCallback']);

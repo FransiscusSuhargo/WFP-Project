@@ -226,7 +226,8 @@ class AdminController extends Controller
     public function insertOrder(Request $request){
         $order = new Order();
         $order->customer_id = $request->customer_id;
-        $order->payment_id = $request->payment_id;
+//        $order->payment_id = $request->payment_id;
+        $order->payment_type = "";
         $order->date = Carbon::parse($request->date)->format('Y-m-d H:i:s');
         $order->queue_number = $request->queueNumber;
         $order->type = $request->type;
@@ -253,7 +254,8 @@ class AdminController extends Controller
     public function updateOrder(Request $request){
         $order = Order::find($request->id);
         $order->customer_id = $request->customer_id;
-        $order->payment_id = $request->payment_id;
+        $order->payment_type = "";
+//        $order->payment_id = $request->payment_id;
         $order->date = Carbon::parse($request->date)->format('Y-m-d H:i:s');
         $order->queue_number = $request->queue_number;
         $order->type = $request->type;

@@ -3,7 +3,9 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FoodController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -32,7 +34,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::post('/submit', [HomeController::class, "checkout"])->name('checkout')->middleware('auth');
 
-Route::middleware('role:admin,employee')->prefix('admin')->group(function () {
+Route::middleware('role:admin')->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('index');
     Route::prefix('food')->group(function () {
         Route::get('/', [AdminController::class, 'showFood'])->name('food.index');
@@ -88,13 +90,13 @@ Route::middleware('role:customer')->prefix('customer')->group(function () {
     });
     Route::prefix('order')->group(function () {
         Route::get('/', [HomeController::class, 'showOrder'])->name('order.index');
-        Route::post('/insert', [HomeController::class, 'insertOrder'])->name('order.insert');
-        Route::post('/edit', [HomeController::class, 'updateOrder'])->name('order.update');
+//        Route::post('/insert', [HomeController::class, 'insertOrder'])->name('order.insert');
+//        Route::post('/edit', [HomeController::class, 'updateOrder'])->name('order.update');
 
-        Route::post('/detail', [HomeController::class, 'showOrderDetail'])->name('order.detail');
-        Route::post('/insertDetail', [HomeController::class, 'insertOrderDetail'])->name('order.detail.insert');
-        Route::post('/updateDetail', [HomeController::class, 'updateOrderDetail'])->name('order.detail.update');
-        Route::post('/deleteDetail', [HomeController::class, 'deleteOrderDetail'])->name('order.detail.delete');
+//        Route::post('/detail', [HomeController::class, 'showOrderDetail'])->name('order.detail');
+//        Route::post('/insertDetail', [HomeController::class, 'insertOrderDetail'])->name('order.detail.insert');
+//        Route::post('/updateDetail', [HomeController::class, 'updateOrderDetail'])->name('order.detail.update');
+//        Route::post('/deleteDetail', [HomeController::class, 'deleteOrderDetail'])->name('order.detail.delete');
 
         Route::get('/cart', [HomeController::class, "cart"])->name('cart');
         Route::get('/detail/{id}', [HomeController::class, "detailMenu"])->name('detailmenu');
@@ -104,5 +106,20 @@ Route::middleware('role:customer')->prefix('customer')->group(function () {
         Route::post('/show/customize/{id}',[HomeController::class, "showCustomizeOrder"])->name('show.customize.order');
         Route::post('/customize/{id}',[HomeController::class, "customizeOrder"])->name('customize.order');
 
+        // Payment
+        Route::get('orders', [PaymentController::class, 'listOrders'])
+            ->name('customer.order.index');
+        Route::post('/checkout', [PaymentController::class, 'checkout'])
+            ->name('customer.order.checkout');
+        Route::post('/checkout/success', [PaymentController::class, 'onSuccessCheckout'])
+            ->name('customer.order.checkout.success');
+        Route::post('/checkout/failed', [PaymentController::class, 'onFailedCheckout'])
+            ->name('customer.order.checkout.failed');
+
     });
+});
+
+Route::middleware('employeee')->prefix('employee')->group(function () {
+    Route::get('/', [EmployeeController::class, 'index'])
+        ->name('employee.index');
 });

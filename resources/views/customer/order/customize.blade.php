@@ -31,7 +31,7 @@
                         <select class="js-example-basic-multiple" name="modifiers[]" multiple="multiple" style="width:100%">
                             @foreach ($modifiers as $modifier)
                                 <option value="{{ $modifier->id }}" @if (in_array($modifier->id, $cart['modifiers'] ?? [])) selected @endif>
-                                    {{ $modifier->name }}
+                                    {{ $modifier->name }} (+{{ $modifier->price }})
                                 </option>
                             @endforeach
 

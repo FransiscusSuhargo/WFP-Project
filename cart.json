@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "quantity": 1,
+        "modifiers": [1, 2, 3],
+        "addons": [1, 2, 3],
+        "note": "NOTE"
+    },
+    {
+        "id": 2,
+        "quantity": 2,
+        "modifiers": [1, 2, 3],
+        "addons": [1, 2, 3],
+        "note": "NOTE"
+    }
+]
