@@ -40,10 +40,12 @@ class LoginController extends Controller
         switch (Auth::user()->role)
         {
             case 'admin':
-            case 'employee':
                 $this->redirectTo = '/admin/dashboard';
                 return $this->redirectTo;
                 break;
+            case 'employee':
+                $this->redirectTo = '/employee';
+                return $this->redirectTo;
             case 'customer':
                 $this->redirectTo = '/customer/dashboard';
                 return $this->redirectTo;
@@ -58,7 +60,7 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
-    
+
     public function logout(Request $request)
     {
         Auth::logout(); // Logout user

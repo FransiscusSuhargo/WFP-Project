@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewOrderEvent;
 use App\Models\Foods\Food;
 use App\Models\Orders\Order;
 use App\Models\Orders\OrderDetail;
@@ -164,6 +165,7 @@ class PaymentController extends Controller
                     'status' => 'process',
                     'payment_type' => $midtransService->getPaymentOption()
                 ]);
+//                NewOrderEvent::dispatch();
             }
 
             if ($midtransService->getStatus() == 'pending') {
@@ -198,6 +200,8 @@ class PaymentController extends Controller
 //                ]);
                 $order->delete();
             }
+
+            event(new NewOrderEvent());
 
             return response()
                 ->json([

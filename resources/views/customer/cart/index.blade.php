@@ -131,12 +131,23 @@
                                     '_token': '{{ csrf_token() }}',
                                 },
                                 success: function (response) {
+                                    console.log(response);
                                     window.location.href = response.redirect_url;
                                 }
                             })
                         },
                         onPending: function (result) {
-                            alert("Waiting your payment!")
+                            $.ajax({
+                                type: 'POST',
+                                url: '{{ route('customer.order.checkout.failed') }}',
+                                data: {
+                                    '_token': '{{ csrf_token() }}',
+                                    'order_id': orderId
+                                },
+                                success: function (response) {
+                                    alert("Order cancelled successfully");
+                                }
+                            })
                         },
                         onError: function (result) {
                             // alert("Payment failed");

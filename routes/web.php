@@ -119,7 +119,15 @@ Route::middleware('role:customer')->prefix('customer')->group(function () {
     });
 });
 
-Route::middleware('employeee')->prefix('employee')->group(function () {
+Route::middleware('role:employee')->prefix('employee')->group(function () {
     Route::get('/', [EmployeeController::class, 'index'])
         ->name('employee.index');
+    Route::get('/tracking', [EmployeeController::class, 'tracking'])
+        ->name('employee.tracking');
+
+    Route::post('/test-tracking', [EmployeeController::class, 'testPusher'])
+        ->name('employee.tracking.test');
+
+    Route::post('/refresh-tracking', [EmployeeController::class, 'refreshOrderTracking'])
+        ->name('employee.tracking.refresh');
 });
